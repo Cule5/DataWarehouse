@@ -1,0 +1,12 @@
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\bin\Debug\netcoreapp2.2\Core.dll
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.AssemblyInfo.cs
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.csprojAssemblyReference.cache
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.deps.json
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.dll
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.pdb
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\bin\Debug\netcoreapp2.2\Core.pdb
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.csproj.CopyComplete
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.dll
+C:\Users\Dominik\Desktop\DataWarehouse\DataWarehouse\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.pdb
