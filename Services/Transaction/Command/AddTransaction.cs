@@ -7,6 +7,6 @@ namespace Service.Transaction.Command
 {
     public class AddTransaction:ICommand
     {
-        private IFormFile File { get; set; }
+        public IFormFile File { get; set; }
     }
 }

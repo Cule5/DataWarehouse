@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -18,9 +19,9 @@ namespace Api.Controllers
         }
         [HttpPost]
         [Route("StandardShop")]
-        public async Task<IActionResult> StandardShop([FromBody]AddTransaction command)
+        public async Task<IActionResult> StandardShop([FromForm]AddTransaction command)
         {
-
+            
             return Ok();
         }
 
