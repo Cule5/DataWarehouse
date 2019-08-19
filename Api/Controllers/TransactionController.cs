@@ -38,5 +38,11 @@ namespace Api.Controllers
         {
             return Ok();
         }
+        [HttpGet]
+        [Route("Test")]
+        public async Task<string> Test()
+        {
+            return "test";
+        }
     }
 }
