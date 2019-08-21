@@ -12,7 +12,6 @@ namespace Core.Domain.Transaction
         public EPaymentType PaymentType { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
-        public ETransactionType TransactionType { get; set; }
         public Shop.Shop Shop { get; set; }
         public ICollection<Product.Product> Products { get; set; }
 

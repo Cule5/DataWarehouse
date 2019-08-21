@@ -5,7 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Service.Transaction.Command;
+using Service.Dispatcher;
+using Services.ETL.Command;
 
 namespace Api.Controllers
 {
@@ -13,37 +14,34 @@ namespace Api.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        public TransactionController()
+        private readonly ICommandDispatcher _commandDispatcher = null;
+        public TransactionController(ICommandDispatcher commandDispatcher)
         {
-
+            _commandDispatcher = commandDispatcher;
         }
         [HttpPost]
         [Route("StandardShop")]
-        public async Task<IActionResult> StandardShop([FromForm]AddTransaction command)
+        public async Task<IActionResult> StandardShop([FromForm]ProcessData command)
         {
-            
+            await _commandDispatcher.DispatchAsync(command);
             return Ok();
         }
 
         [HttpPost]
         [Route("EShop")]
-        public async Task<IActionResult> EShop([FromBody]AddTransaction command)
+        public async Task<IActionResult> EShop([FromForm]ProcessData command)
         {
-
+            await _commandDispatcher.DispatchAsync(command);
             return Ok();
         }
 
         [HttpPost]
         [Route("PhoneShop")]
-        public async Task<IActionResult> PhoneShop([FromBody]AddTransaction command)
+        public async Task<IActionResult> PhoneShop([FromForm]ProcessData command)
         {
+            await _commandDispatcher.DispatchAsync(command);
             return Ok();
         }
-        [HttpGet]
-        [Route("Test")]
-        public async Task<string> Test()
-        {
-            return "test";
-        }
+        
     }
 }

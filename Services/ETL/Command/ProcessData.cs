@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using Service;
 
-namespace Service.Transaction.Command
+namespace Services.ETL.Command
 {
-    public class AddTransaction:ICommand
+    public class ProcessData:ICommand
     {
         public IFormFile File { get; set; }
     }

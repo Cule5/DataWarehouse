@@ -9,7 +9,7 @@ namespace Core.Domain.Product
         public int ProductId { get; set; }
         public double Price { get; set; }
         public string Name { get; set; }
-        public int Amount { get; set; }
-        public Transaction.Transaction Transaction { get; set; }
+        public int Quantity { get; set; }
+        public ICollection<Transaction.Transaction> Transaction { get; set; }
     }
 }
