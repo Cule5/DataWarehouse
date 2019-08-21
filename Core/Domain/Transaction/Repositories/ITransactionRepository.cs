@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Core.Domain.Transaction.Repositories
 {
-    public interface ITransactionRepositories
+    public interface ITransactionRepository
     {
         Task<Transaction> GetAsync(int transactionId);
         Task AddAsync(Transaction transaction);

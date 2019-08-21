@@ -7,7 +7,7 @@ using Infrastructure.EntityFramework;
 
 namespace Infrastructure.Repositories.Transaction
 {
-    class TransactionRepository:ITransactionRepositories
+    class TransactionRepository:ITransactionRepository
     {
         private readonly AppDbContext _appDbContext = null;
         public TransactionRepository()

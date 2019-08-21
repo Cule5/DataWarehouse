@@ -8,6 +8,6 @@ namespace Services.ETL
 {
     public interface IETLService
     {
-        Task Process(IFormFile file);
+        Task ProcessAsync(IFormFile file);
     }
 }

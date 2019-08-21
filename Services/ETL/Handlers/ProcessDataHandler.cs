@@ -16,7 +16,7 @@ namespace Services.ETL.Handlers
         }
         public async Task HandleAsync(ProcessData command)
         {
-            await _etlService.Process(command.File);
+            await _etlService.ProcessAsync(command.File);
         }
     }
 }
