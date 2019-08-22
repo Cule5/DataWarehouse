@@ -10,9 +10,9 @@ namespace Infrastructure.Repositories.Transaction
     class TransactionRepository:ITransactionRepository
     {
         private readonly AppDbContext _appDbContext = null;
-        public TransactionRepository()
+        public TransactionRepository(AppDbContext appDbContext)
         {
-            _appDbContext=new AppDbContext();
+            _appDbContext = appDbContext;
         }
         public async Task<Core.Domain.Transaction.Transaction> GetAsync(int transactionId)
         {

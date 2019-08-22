@@ -9,5 +9,6 @@ namespace Core.Domain.Product.Repositories
     {
         Task<Product> GetAsync(int productId);
         Task AddAsync(Product product);
+        Task<Product> FindAsync(Product product);
     }
 }

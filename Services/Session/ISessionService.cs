@@ -9,5 +9,6 @@ namespace Services.Session
     public interface ISessionService
     {
         Task AddToBufferAsync(RawDataDTO rawDataDto);
+        Task<List<RawDataDTO>> GetBufferAsync();
     }
 }

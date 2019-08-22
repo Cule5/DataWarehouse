@@ -9,5 +9,6 @@ namespace Core.Domain.Shop.Repositories
     {
         Task<Shop> GetAsync(int shopId);
         Task AddAsync(Shop shop);
+        Task<Shop> FindAsync(Shop shop);
     }
 }

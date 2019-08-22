@@ -17,5 +17,8 @@ namespace Services.ETL
         public EShopType ShopType { get; set; }
         public EPaymentType PaymentType { get; set; }
         public int PackagesLeft { get; set; }
+        public string ClientPostCode { get; set; }
+        public string ClientCity { get; set; }
+
     }
 }

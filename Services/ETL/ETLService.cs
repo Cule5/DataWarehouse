@@ -4,8 +4,11 @@ using System.IO;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Domain.Product;
 using Core.Domain.Product.Repositories;
+using Core.Domain.Shop;
 using Core.Domain.Shop.Repositories;
+using Core.Domain.Transaction;
 using Core.Domain.Transaction.Repositories;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -37,21 +40,45 @@ namespace Services.ETL
                     rawDataDTO = line != null ? JsonConvert.DeserializeObject<RawDataDTO>(line) : null;
                 }
             }
-
-            if (rawDataDTO.PackagesLeft == 0)
+            if (rawDataDTO!=null)
             {
-                await _sessionService.AddToBufferAsync(rawDataDTO);
-                await ProcessAsync();
+                if (rawDataDTO.PackagesLeft == 0)
+                {
+                    await _sessionService.AddToBufferAsync(rawDataDTO);
+                    await ProcessAsync();
+                }
+                else
+                    await _sessionService.AddToBufferAsync(rawDataDTO);
             }
-            else
-            {
-                await _sessionService.AddToBufferAsync(rawDataDTO);
-            }
-            
         }
 
         private async Task ProcessAsync()
         {
+            var bufferedData = await _sessionService.GetBufferAsync();
+            foreach (var rawData in bufferedData)
+            {
+                var shop = new Shop()
+                {
+                    City = rawData.ShopCity,
+                    PostalCode = rawData.ShopPostCode,
+                    Type = rawData.ShopType
+                };
+                var transaction = new Transaction();
+                var resultShop = await _shopRepository.FindAsync(shop) ?? shop;
+
+                resultShop.Transactions.Add(transaction);
+                transaction.Shop = resultShop;
+               
+                await _transactionRepository.AddAsync(transaction);
+                await _shopRepository.AddAsync(resultShop);
+
+
+
+                
+              
+               
+
+            }
 
         }
 

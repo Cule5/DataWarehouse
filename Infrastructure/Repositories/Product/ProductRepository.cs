@@ -4,15 +4,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Domain.Product.Repositories;
 using Infrastructure.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.Product
 {
     public class ProductRepository:IProductRepository
     {
         private readonly AppDbContext _appDbContext = null;
-        public ProductRepository()
+        public ProductRepository(AppDbContext appDbContext)
         {
-            _appDbContext=new AppDbContext();
+            _appDbContext = appDbContext;
         }
         public async Task<Core.Domain.Product.Product> GetAsync(int productId)
         {
@@ -22,7 +23,11 @@ namespace Infrastructure.Repositories.Product
         public async Task AddAsync(Core.Domain.Product.Product product)
         {
             await _appDbContext.Products.AddAsync(product);
-            await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task<Core.Domain.Product.Product> FindAsync(Core.Domain.Product.Product product)
+        {
+            return await _appDbContext.Products.FirstOrDefaultAsync((p)=>p.Name.Equals(product.Name)&&Math.Abs(p.Price - product.Price) < 0.01&&p.Quantity==product.Quantity);
         }
     }
 }
