@@ -2996,6 +2996,18 @@
           }
         }
       },
+      "SharpSerializer/3.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Polenter.SharpSerializer.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Polenter.SharpSerializer.dll": {}
+        }
+      },
       "System.AppContext/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -4494,7 +4506,8 @@
           "Core": "1.0.0",
           "Microsoft.AspNetCore.Http": "2.2.2",
           "Microsoft.AspNetCore.Http.Extensions": "2.2.0",
-          "Newtonsoft.Json": "12.0.2"
+          "Newtonsoft.Json": "12.0.2",
+          "SharpSerializer": "3.0.1"
         },
         "compile": {
           "bin/placeholder/Services.dll": {}
@@ -7768,6 +7781,23 @@
         "runtimes/win-x86/native/sni.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "SharpSerializer/3.0.1": {
+      "sha512": "PyylJiOCfwGvP3g3R3XkoUhzV77NtLE5rjO+LWcRnUn1c84HSKA+OuK3aIrl4bQlNGr3WASo2lmC/PwC6lMy2w==",
+      "type": "package",
+      "path": "sharpserializer/3.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/Polenter.SharpSerializer.dll",
+        "lib/net452/Polenter.SharpSerializer.xml",
+        "lib/netstandard1.0/Polenter.SharpSerializer.dll",
+        "lib/netstandard1.0/Polenter.SharpSerializer.xml",
+        "lib/netstandard1.3/Polenter.SharpSerializer.dll",
+        "lib/netstandard1.3/Polenter.SharpSerializer.xml",
+        "sharpserializer.3.0.1.nupkg.sha512",
+        "sharpserializer.nuspec"
       ]
     },
     "System.AppContext/4.3.0": {

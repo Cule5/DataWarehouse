@@ -4,14 +4,18 @@ using System.IO;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using Core.Domain.Product;
 using Core.Domain.Product.Repositories;
 using Core.Domain.Shop;
 using Core.Domain.Shop.Repositories;
 using Core.Domain.Transaction;
 using Core.Domain.Transaction.Repositories;
+using Core.Domain.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Polenter.Serialization;
 using Services.Session;
 
 namespace Services.ETL
@@ -22,33 +26,51 @@ namespace Services.ETL
         private readonly IShopRepository _shopRepository = null;
         private readonly IProductRepository _productRepository = null;
         private readonly ITransactionRepository _transactionRepository=null;
-        public ETLService(ISessionService sessionService,IShopRepository shopRepository,IProductRepository productRepository,ITransactionRepository transactionRepository)
+        private readonly IUnitOfWork _unitOfWork = null;
+        public ETLService(ISessionService sessionService,IShopRepository shopRepository,IProductRepository productRepository,ITransactionRepository transactionRepository,IUnitOfWork unitOfWork)
         {
             _sessionService = sessionService;
             _shopRepository = shopRepository;
             _productRepository = productRepository;
             _transactionRepository = transactionRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task ProcessAsync(IFormFile file)
         {
-            RawDataDTO rawDataDTO = null;
+            var extension = Path.GetExtension(file.FileName);
+            transaction transaction = null;
+            
             using (var stream = file.OpenReadStream())
             {
                 using (var streamReader = new StreamReader(stream))
                 {
+                    
                     var line = streamReader.ReadLine();
-                    rawDataDTO = line != null ? JsonConvert.DeserializeObject<RawDataDTO>(line) : null;
+                    if (extension.Equals(".JSON"))
+                        transaction = line != null ? JsonConvert.DeserializeObject<transaction>(line) : null;
+                    else if(extension.Equals(".xml"))
+                    {
+
+                        XmlSerializer serializer = new XmlSerializer(typeof(transaction));
+                        using (TextReader reader = new StringReader(line))
+                        {
+                            transaction result = (transaction)serializer.Deserialize(reader);
+                        }
+                    }
+                        
+                        
+                    
                 }
             }
-            if (rawDataDTO!=null)
+            if (transaction!=null)
             {
-                if (rawDataDTO.PackagesLeft == 0)
+                if (transaction.MessagesLeft == 0)
                 {
-                    await _sessionService.AddToBufferAsync(rawDataDTO);
+                    await _sessionService.AddToBufferAsync(transaction);
                     await ProcessAsync();
                 }
                 else
-                    await _sessionService.AddToBufferAsync(rawDataDTO);
+                    await _sessionService.AddToBufferAsync(transaction);
             }
         }
 
@@ -73,16 +95,11 @@ namespace Services.ETL
                 await _shopRepository.AddAsync(resultShop);
 
 
-
-                
-              
-               
-
             }
 
+            await _sessionService.ClearBuffer();
+            await _unitOfWork.SaveAsync();
         }
-
-
         
     }
 }

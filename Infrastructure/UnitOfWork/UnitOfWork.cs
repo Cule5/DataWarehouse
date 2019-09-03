@@ -18,18 +18,17 @@ namespace Infrastructure.UnitOfWork
         {
             _appDbContext = dbContext;
         }
-        public ITransactionRepository TransactionRepository { get; set; }
-        public IProductRepository ProductRepository { get; set; }
-        public IShopRepository ShopRepository { get; set; }
+     
 
         public async Task SaveAsync()
         {
             await _appDbContext.SaveChangesAsync();
         }
 
+
         public void Dispose()
         {
-            _appDbContext.Dispose();
+            _appDbContext?.Dispose();
         }
     }
 }

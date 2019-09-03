@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Autofac;
+using Infrastructure.EntityFramework;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
@@ -15,6 +16,7 @@ namespace Infrastructure
             containerBuilder.RegisterAssemblyTypes(infrastructureAssembly)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+            containerBuilder.RegisterType<AppDbContext>().InstancePerDependency();
         }
     }
 }

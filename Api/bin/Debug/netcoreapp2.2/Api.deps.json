@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "1e15c9eda7f3d61217685412dc0177cb3ccfaa01"
+    "signature": "30d9cba55e47b43b8cb2d42062bf2cd9674ecd37"
   },
   "compilationOptions": {
     "defines": [
@@ -216,6 +216,20 @@
           }
         }
       },
+      "SharpSerializer/3.0.1": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.3"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Polenter.SharpSerializer.dll": {
+            "assemblyVersion": "3.0.1.0",
+            "fileVersion": "3.0.1.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.3/Polenter.SharpSerializer.dll": {}
+        }
+      },
       "System.Collections.Immutable/1.5.0": {},
       "System.Data.SqlClient/4.6.1": {
         "dependencies": {
@@ -318,7 +332,8 @@
           "Core": "1.0.0",
           "Microsoft.AspNetCore.Http": "2.2.2",
           "Microsoft.AspNetCore.Http.Extensions": "2.2.0",
-          "Newtonsoft.Json": "12.0.2"
+          "Newtonsoft.Json": "12.0.2",
+          "SharpSerializer": "3.0.1"
         },
         "runtime": {
           "Services.dll": {}
@@ -3484,6 +3499,13 @@
       "sha512": "sha512-YhEdSQUsTx+C8m8Bw7ar5/VesXvCFMItyZF7G1AUY+OM0VPZUOeAVpJ4Wl6fydBGUYZxojTDR3I6Bj/+BPkJNA==",
       "path": "runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0",
       "hashPath": "runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
+    },
+    "SharpSerializer/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PyylJiOCfwGvP3g3R3XkoUhzV77NtLE5rjO+LWcRnUn1c84HSKA+OuK3aIrl4bQlNGr3WASo2lmC/PwC6lMy2w==",
+      "path": "sharpserializer/3.0.1",
+      "hashPath": "sharpserializer.3.0.1.nupkg.sha512"
     },
     "System.Collections.Immutable/1.5.0": {
       "type": "package",

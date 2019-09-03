@@ -8,7 +8,8 @@ namespace Services.Session
 {
     public interface ISessionService
     {
-        Task AddToBufferAsync(RawDataDTO rawDataDto);
-        Task<List<RawDataDTO>> GetBufferAsync();
+        Task AddToBufferAsync(transaction transaction);
+        Task<List<transaction>> GetBufferAsync();
+        Task ClearBuffer();
     }
 }

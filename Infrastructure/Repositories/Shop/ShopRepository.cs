@@ -24,12 +24,12 @@ namespace Infrastructure.Repositories.Shop
         public async Task AddAsync(Core.Domain.Shop.Shop shop)
         {
             await _appDbContext.Shops.AddAsync(shop);
-            await _appDbContext.SaveChangesAsync();
+            
         }
 
-        public Task<Core.Domain.Shop.Shop> FindAsync(Core.Domain.Shop.Shop shop)
+        public async Task<Core.Domain.Shop.Shop> FindAsync(Core.Domain.Shop.Shop shop)
         {
-            return _appDbContext.Shops.FirstOrDefaultAsync((s)=>s.Name.Equals(shop.Name)&&s.City.Equals(shop.City)&&s.PostalCode.Equals(shop.PostalCode)&&s.Type==shop.Type);
+            return await _appDbContext.Shops.FirstOrDefaultAsync((s)=>s.Equals(shop));
         }
     }
 }

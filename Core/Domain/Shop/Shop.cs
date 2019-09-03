@@ -13,5 +13,11 @@ namespace Core.Domain.Shop
         public string PostalCode { get; set; }
         public string City { get; set; }
         public ICollection<Transaction.Transaction> Transactions { get; set; }
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Shop shop))
+                return false;
+            return shop.Name.Equals(Name)&&shop.Type==Type&&shop.PostalCode.Equals(PostalCode)&&shop.City.Equals(City);
+        }
     }
 }

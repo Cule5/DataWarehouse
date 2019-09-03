@@ -22,7 +22,6 @@ namespace Infrastructure.Repositories.Transaction
         public async Task AddAsync(Core.Domain.Transaction.Transaction transaction)
         {
             await _appDbContext.Transactions.AddAsync(transaction);
-            await _appDbContext.SaveChangesAsync();
         }
     }
 }

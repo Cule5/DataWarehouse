@@ -6,7 +6,7 @@ using Core.Domain.Common;
 
 namespace Services.ETL
 {
-    public class RawDataDTO
+    public class transaction
     {
         public string ShopCity { get; set; }
         public string Product { get; set; }
@@ -16,7 +16,7 @@ namespace Services.ETL
         public double Price { get; set; }
         public EShopType ShopType { get; set; }
         public EPaymentType PaymentType { get; set; }
-        public int PackagesLeft { get; set; }
+        public int MessagesLeft { get; set; }
         public string ClientPostCode { get; set; }
         public string ClientCity { get; set; }
 

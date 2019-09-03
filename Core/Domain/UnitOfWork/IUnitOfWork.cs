@@ -8,11 +8,9 @@ using Core.Domain.Transaction.Repositories;
 
 namespace Core.Domain.UnitOfWork
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork:IDisposable
     {
-        ITransactionRepository TransactionRepository { get; set; }
-        IProductRepository ProductRepository { get; set; }
-        IShopRepository ShopRepository { get; set; }
+        
         Task SaveAsync();
     }
 }

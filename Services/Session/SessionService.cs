@@ -15,26 +15,31 @@ namespace Services.Session
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public  Task AddToBufferAsync(RawDataDTO rawDataDto)
+        public  Task AddToBufferAsync(transaction transaction)
         {
             return Task.Factory.StartNew(() =>
             {
-                var bufferedData = _httpContextAccessor.HttpContext.Session.GetObject<List<RawDataDTO>>(key);
+                var bufferedData = _httpContextAccessor.HttpContext.Session.GetObject<List<transaction>>(key);
                 if(bufferedData != null)
-                    bufferedData.Add(rawDataDto);
+                    bufferedData.Add(transaction);
                 else
                 {
-                    bufferedData = new List<RawDataDTO>();
-                    bufferedData.Add(rawDataDto);
+                    bufferedData = new List<transaction>();
+                    bufferedData.Add(transaction);
                 }
                 _httpContextAccessor.HttpContext.Session.AddObject(key, bufferedData);
             });
             
         }
 
-        public Task<List<RawDataDTO>> GetBufferAsync()
+        public Task<List<transaction>> GetBufferAsync()
         {
-            return Task.Factory.StartNew(() => _httpContextAccessor.HttpContext.Session.GetObject<List<RawDataDTO>>(key));
+            return Task.Factory.StartNew(() => _httpContextAccessor.HttpContext.Session.GetObject<List<transaction>>(key));
+        }
+
+        public  Task ClearBuffer()
+        {
+            return Task.Factory.StartNew(()=>_httpContextAccessor.HttpContext.Session.Clear());
         }
     }
 }

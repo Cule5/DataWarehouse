@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "bd20df5a5e6e1524e8be20cf5f82bb69bef5bec8"
+    "signature": "30764d7763b6829298ca0eda9fbaf31c2f12e47d"
   },
   "compilationOptions": {},
   "targets": {
@@ -12,7 +12,8 @@
           "Core": "1.0.0",
           "Microsoft.AspNetCore.Http": "2.2.2",
           "Microsoft.AspNetCore.Http.Extensions": "2.2.0",
-          "Newtonsoft.Json": "12.0.2"
+          "Newtonsoft.Json": "12.0.2",
+          "SharpSerializer": "3.0.1"
         },
         "runtime": {
           "Services.dll": {}
@@ -162,6 +163,14 @@
           }
         }
       },
+      "SharpSerializer/3.0.1": {
+        "runtime": {
+          "lib/netstandard1.3/Polenter.SharpSerializer.dll": {
+            "assemblyVersion": "3.0.1.0",
+            "fileVersion": "3.0.1.0"
+          }
+        }
+      },
       "System.Buffers/4.5.0": {},
       "System.ComponentModel.Annotations/4.5.0": {},
       "System.Memory/4.5.1": {},
@@ -284,6 +293,13 @@
       "sha512": "sha512-rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
       "path": "newtonsoft.json/12.0.2",
       "hashPath": "newtonsoft.json.12.0.2.nupkg.sha512"
+    },
+    "SharpSerializer/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PyylJiOCfwGvP3g3R3XkoUhzV77NtLE5rjO+LWcRnUn1c84HSKA+OuK3aIrl4bQlNGr3WASo2lmC/PwC6lMy2w==",
+      "path": "sharpserializer/3.0.1",
+      "hashPath": "sharpserializer.3.0.1.nupkg.sha512"
     },
     "System.Buffers/4.5.0": {
       "type": "package",
