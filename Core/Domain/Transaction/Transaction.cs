@@ -14,7 +14,7 @@ namespace Core.Domain.Transaction
         public string City { get; set; }
         public string PostalCode { get; set; }
         public Shop.Shop Shop { get; set; }
-        public ICollection<Product.Product> Products { get; set; }
+        public ICollection<TransactionProduct.TransactionProduct> TransactionProducts { get; set; }=new List<TransactionProduct.TransactionProduct>();
 
     }
 }

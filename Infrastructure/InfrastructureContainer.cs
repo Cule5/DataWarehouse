@@ -4,7 +4,9 @@ using System.Reflection;
 using System.Text;
 using Autofac;
 using Infrastructure.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure
 {
@@ -12,11 +14,19 @@ namespace Infrastructure
     {
         public static void Build(ContainerBuilder containerBuilder)
         {
+
             var infrastructureAssembly = Assembly.GetExecutingAssembly();
             containerBuilder.RegisterAssemblyTypes(infrastructureAssembly)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            containerBuilder.RegisterType<AppDbContext>().InstancePerDependency();
+            var optionsBuilder =
+                new DbContextOptionsBuilder<AppDbContext>().UseSqlServer(
+                    @"Server=localhost;Database=DataWarehouse;Trusted_Connection=True;");
+
+
+            containerBuilder.RegisterType<AppDbContext>()
+                //.WithParameter("options", optionsBuilder.Options)
+                .InstancePerLifetimeScope();
         }
     }
 }

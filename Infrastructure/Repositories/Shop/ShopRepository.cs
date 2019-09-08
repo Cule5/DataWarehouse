@@ -23,13 +23,16 @@ namespace Infrastructure.Repositories.Shop
 
         public async Task AddAsync(Core.Domain.Shop.Shop shop)
         {
+            if(shop==null)
+                throw new ArgumentNullException();
             await _appDbContext.Shops.AddAsync(shop);
-            
         }
 
         public async Task<Core.Domain.Shop.Shop> FindAsync(Core.Domain.Shop.Shop shop)
         {
-            return await _appDbContext.Shops.FirstOrDefaultAsync((s)=>s.Equals(shop));
+            if(shop==null)
+                throw new ArgumentNullException();
+            return await _appDbContext.Shops.FirstOrDefaultAsync(s => s.Name.Equals(shop.Name) && s.Type == shop.Type && s.PostalCode.Equals(shop.PostalCode) && s.City.Equals(shop.City));
         }
     }
 }

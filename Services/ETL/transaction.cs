@@ -9,6 +9,7 @@ namespace Services.ETL
     public class transaction
     {
         public string ShopCity { get; set; }
+        public string ShopName { get; set; }
         public string Product { get; set; }
         public string ShopPostCode { get; set; }
         public int Quantity { get; set; }

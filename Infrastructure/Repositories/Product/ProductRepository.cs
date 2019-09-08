@@ -22,11 +22,15 @@ namespace Infrastructure.Repositories.Product
 
         public async Task AddAsync(Core.Domain.Product.Product product)
         {
+            if(product==null)
+                throw new ArgumentNullException();
             await _appDbContext.Products.AddAsync(product);
         }
 
         public async Task<Core.Domain.Product.Product> FindAsync(Core.Domain.Product.Product product)
         {
+            if (product == null)
+                throw new ArgumentNullException();
             return await _appDbContext.Products.FirstOrDefaultAsync((p)=>p.Name.Equals(product.Name)&&Math.Abs(p.Price - product.Price) < 0.01&&p.Quantity==product.Quantity);
         }
     }

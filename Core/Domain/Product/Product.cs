@@ -6,11 +6,12 @@ namespace Core.Domain.Product
 {
     public class Product
     {
+        
         public int ProductId { get; set; }
         public double Price { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
-        public ICollection<Transaction.Transaction> Transaction { get; set; }
+        public ICollection<TransactionProduct.TransactionProduct> TransactionProducts { get; set; }=new List<TransactionProduct.TransactionProduct>();
         public override bool Equals(object obj)
         {
             if (!(obj is Product product))

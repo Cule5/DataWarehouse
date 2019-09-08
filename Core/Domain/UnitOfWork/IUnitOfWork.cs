@@ -8,7 +8,7 @@ using Core.Domain.Transaction.Repositories;
 
 namespace Core.Domain.UnitOfWork
 {
-    public interface IUnitOfWork:IDisposable
+    public interface IUnitOfWork
     {
         
         Task SaveAsync();

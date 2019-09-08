@@ -7,16 +7,16 @@ using Services.ETL.Command;
 
 namespace Services.ETL.Handlers
 {
-    public class ProcessDataHandler:ICommandHandler<ProcessData>
+    class ProcessEShopDataHandler: ICommandHandler<ProcessData>
     {
         private readonly IETLService _etlService = null;
-        public ProcessDataHandler(IETLService etlService)
+        public ProcessEShopDataHandler(IETLService etlService)
         {
             _etlService = etlService;
         }
         public async Task HandleAsync(ProcessData command)
         {
-            await _etlService.ProcessAsync(command.File);
+            await _etlService.EShopDataAsync(command.File);
         }
     }
 }

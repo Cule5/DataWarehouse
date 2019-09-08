@@ -26,9 +26,6 @@ namespace Infrastructure.UnitOfWork
         }
 
 
-        public void Dispose()
-        {
-            _appDbContext?.Dispose();
-        }
+        
     }
 }
