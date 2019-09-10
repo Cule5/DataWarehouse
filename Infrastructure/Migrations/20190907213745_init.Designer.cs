@@ -48,7 +48,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("PostalCode");
+                    b.Property<string>("PostCode");
 
                     b.Property<int>("Type");
 
@@ -69,7 +69,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("PaymentType");
 
-                    b.Property<string>("PostalCode");
+                    b.Property<string>("PostCode");
 
                     b.Property<int?>("ShopId");
 

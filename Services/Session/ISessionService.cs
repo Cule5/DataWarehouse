@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Domain.Common;
 using Services.ETL;
 
 namespace Services.Session
 {
     public interface ISessionService
     {
-        Task AddToBufferAsync(transaction transaction);
-        Task<List<transaction>> GetBufferAsync();
-        Task ClearBuffer();
+        Task AddToBufferAsync(transaction transaction,EShopType shopType);
+        Task<List<transaction>> GetBufferAsync(EShopType shopType);
+        Task ClearBufferAsync(EShopType shopType);
+
+       
     }
 }

@@ -12,7 +12,7 @@ namespace Core.Domain.Transaction
         public DateTime Date { get; set; }
         public EPaymentType PaymentType { get; set; }
         public string City { get; set; }
-        public string PostalCode { get; set; }
+        public string PostCode { get; set; }
         public Shop.Shop Shop { get; set; }
         public ICollection<TransactionProduct.TransactionProduct> TransactionProducts { get; set; }=new List<TransactionProduct.TransactionProduct>();
 
