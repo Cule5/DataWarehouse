@@ -10,12 +10,16 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Core.Domain.Common;
 using Core.Domain.Product;
+using Core.Domain.Product.Factories;
 using Core.Domain.Product.Repositories;
 using Core.Domain.Shop;
+using Core.Domain.Shop.Factories;
 using Core.Domain.Shop.Repositories;
 using Core.Domain.Transaction;
+using Core.Domain.Transaction.Factories;
 using Core.Domain.Transaction.Repositories;
 using Core.Domain.TransactionProduct;
+using Core.Domain.TransactionProduct.Factories;
 using Core.Domain.TransactionProduct.Repositories;
 using Core.Domain.UnitOfWork;
 using Microsoft.AspNetCore.Http;
@@ -33,13 +37,20 @@ namespace Services.ETL
         private readonly ITransactionRepository _transactionRepository=null;
         private readonly ITransactionProductRepository _transactionProductRepository = null;
         private readonly IUnitOfWork _unitOfWork = null;
-        private readonly ManualResetEventSlim _manualResetEventSlim=null;
+        private readonly IProductFactory _productFactory = null;
+        private readonly IShopFactory _shopFactory = null;
+        private readonly ITransactionFactory _transactionFactory = null;
+        private readonly ITransactionProductFactory _transactionProductFactory = null;
         public ETLService(ISessionService sessionService,
             IShopRepository shopRepository,
             IProductRepository productRepository,
             ITransactionRepository transactionRepository,
             ITransactionProductRepository transactionProductRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IProductFactory productFactory,
+            IShopFactory shopFactory,
+            ITransactionFactory transactionFactory,
+            ITransactionProductFactory transactionProductFactory)
         {
             _sessionService = sessionService;
             _shopRepository = shopRepository;
@@ -47,18 +58,18 @@ namespace Services.ETL
             _transactionRepository = transactionRepository;
             _transactionProductRepository = transactionProductRepository;
             _unitOfWork = unitOfWork;
-            _manualResetEventSlim=new ManualResetEventSlim(true);
+            _productFactory = productFactory;
+            _shopFactory = shopFactory;
+            _transactionFactory = transactionFactory;
+            _transactionProductFactory = transactionProductFactory;
         }
         public async Task StandardShopDataAsync(IFormFile file)
         {
             var transaction = await ParseFileAsync(file);
-            _manualResetEventSlim.Wait();
             await _sessionService.AddToBufferAsync(transaction,EShopType.StandardShop);
             if (transaction.MessagesLeft == 0)
-            {
-                _manualResetEventSlim.Reset();
                 await this.ProcessAsync(EShopType.StandardShop);
-            }
+            
                 
         }
 
@@ -94,16 +105,8 @@ namespace Services.ETL
                             transaction = line != null ? JsonConvert.DeserializeObject<transaction>(line) : null;
                         else if (extension.Equals(".xml"))
                         {
-                            var doc = XDocument.Parse(line);
-
-                            bool success = bool.Parse(doc.Root.Value);
-
                             XmlSerializer serializer = new XmlSerializer(typeof(transaction));
-                            // serializer.Deserialize(doc);
-                            using (TextReader reader = new StringReader(line))
-                            {
-                                transaction result = (transaction)serializer.Deserialize(stream);
-                            }
+                            transaction = (transaction)serializer.Deserialize(streamReader);
                         }
                     }
                 }
@@ -115,51 +118,28 @@ namespace Services.ETL
         {
             var bufferedData = await _sessionService.GetBufferAsync(shopType);
             await _sessionService.ClearBufferAsync(shopType);
-            _manualResetEventSlim.Set();
             if(bufferedData.Count==0)
                 return;
-            Transaction transaction=new Transaction()
-            {
-                City = bufferedData[0].ClientCity,
-                Date = bufferedData[0].TransactionDateTime,
-                PaymentType = bufferedData[0].PaymentType,
-                PostCode = bufferedData[0].ClientPostCode
-            };
+            var transaction = await _transactionFactory.CreateAsync(bufferedData[0].ClientCity, bufferedData[0].TransactionDateTime, bufferedData[0].PaymentType, bufferedData[0].ClientPostCode);
+            
             foreach (var rawData in bufferedData)
             {
-                var shop = new Shop()
-                {
-                    City = rawData.ShopCity,
-                    PostalCode = rawData.ShopPostCode,
-                    Type = rawData.ShopType,
-                    Name = rawData.ShopName
-                };
-                var product = new Product()
-                {
-                    Price = rawData.Price,
-                    Name = rawData.Product,
-                    Quantity = rawData.Quantity
-                };
-                var resultProduct = await _productRepository.FindAsync(product) ?? product;
-                var resultShop = await _shopRepository.FindAsync(shop)??shop;
-
-                var transactionProduct = new TransactionProduct()
-                {
-                    Product = resultProduct,
-                    Transaction = transaction
-                };
-                resultProduct.TransactionProducts.Add(transactionProduct);
-                resultShop.Transactions.Add(transaction);
-                transaction.Shop = resultShop;
+                var tr = await _transactionRepository.GetAsync(1);
+                var shop=await _shopFactory.CreateAsync(rawData.ShopName, rawData.ShopType, rawData.ShopPostCode, rawData.ShopCity);
+                var product = await _productFactory.CreateAsync(rawData.Price, rawData.Product,rawData.Quantity);
+                
+                shop.Transactions.Add(transaction);
+                var transactionProduct = await _transactionProductFactory.CreateAsync(product, transaction);
+                transaction.Shop = shop;
                 transaction.TransactionProducts.Add(transactionProduct);
-               
+                product.TransactionProducts.Add(transactionProduct);
+
+                await _shopRepository.AddAsync(shop);
+                await _productRepository.AddAsync(product);
                 await _transactionRepository.AddAsync(transaction);
-                await _shopRepository.AddAsync(resultShop);
                 await _transactionProductRepository.AddAsync(transactionProduct);
-                await _productRepository.AddAsync(resultProduct);
             }
 
-            
             try
             {
                 await _unitOfWork.SaveAsync();

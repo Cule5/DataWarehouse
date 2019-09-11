@@ -7,6 +7,6 @@ namespace Core.Domain.Product.Factories
 {
     public interface IProductFactory
     {
-        Task<Product> CreateAsync(Guid id, string email, string password);
+        Task<Product> CreateAsync(double price,string name,int quantity);
     }
 }

@@ -6,7 +6,16 @@ namespace Core.Domain.Product
 {
     public class Product
     {
-        
+        public Product()
+        {
+
+        }
+        public Product(double price,string name,int quantity)
+        {
+            Price = price;
+            Name = name;
+            Quantity = quantity;
+        }
         public int ProductId { get; set; }
         public double Price { get; set; }
         public string Name { get; set; }

@@ -31,7 +31,7 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: false),
-                    PostalCode = table.Column<string>(nullable: true),
+                    PostCode = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -48,7 +48,7 @@ namespace Infrastructure.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     PaymentType = table.Column<int>(nullable: false),
                     City = table.Column<string>(nullable: true),
-                    PostalCode = table.Column<string>(nullable: true),
+                    PostCode = table.Column<string>(nullable: true),
                     ShopId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
