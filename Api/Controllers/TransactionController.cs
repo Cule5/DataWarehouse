@@ -20,7 +20,7 @@ namespace Api.Controllers
             _commandDispatcher = commandDispatcher;
         }
         [HttpPost]
-        [Route("StationaryShop")]
+        [Route("StandardShop")]
         public async Task<IActionResult> StandardShop([FromForm]ProcessStandardShopData command)
         {
             await _commandDispatcher.DispatchAsync(command);
@@ -36,12 +36,12 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        [Route("TeleShop")]
+        [Route("PhoneShop")]
         public async Task<IActionResult> PhoneShop([FromForm]ProcessPhoneShopData command)
         {
             await _commandDispatcher.DispatchAsync(command);
             return Ok();
         }
-        
+
     }
 }
