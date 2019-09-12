@@ -31,7 +31,7 @@ namespace Services.ETL
 {
     public class ETLService:IETLService
     {
-        private readonly ISessionService _sessionService = null;
+        private readonly IBufferService _bufferService = null;
         private readonly IShopRepository _shopRepository = null;
         private readonly IProductRepository _productRepository = null;
         private readonly ITransactionRepository _transactionRepository=null;
@@ -41,7 +41,7 @@ namespace Services.ETL
         private readonly IShopFactory _shopFactory = null;
         private readonly ITransactionFactory _transactionFactory = null;
         private readonly ITransactionProductFactory _transactionProductFactory = null;
-        public ETLService(ISessionService sessionService,
+        public ETLService(IBufferService bufferService,
             IShopRepository shopRepository,
             IProductRepository productRepository,
             ITransactionRepository transactionRepository,
@@ -52,7 +52,7 @@ namespace Services.ETL
             ITransactionFactory transactionFactory,
             ITransactionProductFactory transactionProductFactory)
         {
-            _sessionService = sessionService;
+            _bufferService = bufferService;
             _shopRepository = shopRepository;
             _productRepository = productRepository;
             _transactionRepository = transactionRepository;
@@ -66,9 +66,9 @@ namespace Services.ETL
         public async Task StandardShopDataAsync(IFormFile file)
         {
             var transaction = await ParseFileAsync(file);
-            await _sessionService.AddToBufferAsync(transaction,EShopType.StandardShop);
+            await _bufferService.AddToBufferAsync(transaction,EShopType.StationaryShop);
             if (transaction.MessagesLeft == 0)
-                await this.ProcessAsync(EShopType.StandardShop);
+                await this.ProcessAsync(EShopType.StationaryShop);
             
                 
         }
@@ -76,7 +76,7 @@ namespace Services.ETL
         public async Task EShopDataAsync(IFormFile file)
         {
             var transaction = await ParseFileAsync(file);
-            await _sessionService.AddToBufferAsync(transaction,EShopType.StandardShop);
+            await _bufferService.AddToBufferAsync(transaction,EShopType.EShop);
             if (transaction.MessagesLeft == 0)
                 await this.ProcessAsync(EShopType.EShop);
         }
@@ -84,9 +84,9 @@ namespace Services.ETL
         public async Task PhoneShopDataAsync(IFormFile file)
         {
             var transaction = await ParseFileAsync(file);
-            await _sessionService.AddToBufferAsync(transaction,EShopType.PhoneShop);
+            await _bufferService.AddToBufferAsync(transaction,EShopType.TeleShop);
             if (transaction.MessagesLeft == 0)
-                await this.ProcessAsync(EShopType.PhoneShop);
+                await this.ProcessAsync(EShopType.TeleShop);
         }
 
         private  Task<transaction> ParseFileAsync(IFormFile file)
@@ -116,18 +116,17 @@ namespace Services.ETL
 
         private async Task ProcessAsync(EShopType shopType)
         {
-            var bufferedData = await _sessionService.GetBufferAsync(shopType);
-            await _sessionService.ClearBufferAsync(shopType);
+            var bufferedData = await _bufferService.GetBufferAsync(shopType);
+            await _bufferService.ClearBufferAsync(shopType);
             if(bufferedData.Count==0)
                 return;
-            var transaction = await _transactionFactory.CreateAsync(bufferedData[0].ClientCity, bufferedData[0].TransactionDateTime, bufferedData[0].PaymentType, bufferedData[0].ClientPostCode);
-            
+            var transaction = await _transactionFactory.CreateAsync(bufferedData[0].ClientCity, 
+                bufferedData[0].TransactionDateTime, bufferedData[0].PaymentType, bufferedData[0].ClientPostCode);
+
             foreach (var rawData in bufferedData)
             {
-                var tr = await _transactionRepository.GetAsync(1);
-                var shop=await _shopFactory.CreateAsync(rawData.ShopName, rawData.ShopType, rawData.ShopPostCode, rawData.ShopCity);
-                var product = await _productFactory.CreateAsync(rawData.Price, rawData.Product,rawData.Quantity);
-                
+                var shop = await _shopFactory.CreateAsync(rawData.ShopName, rawData.ShopType, rawData.ShopPostCode, rawData.ShopCity);
+                var product = await _productFactory.CreateAsync(rawData.Price, rawData.Product, rawData.Quantity);
                 shop.Transactions.Add(transaction);
                 var transactionProduct = await _transactionProductFactory.CreateAsync(product, transaction);
                 transaction.Shop = shop;
@@ -139,16 +138,12 @@ namespace Services.ETL
                 await _transactionRepository.AddAsync(transaction);
                 await _transactionProductRepository.AddAsync(transactionProduct);
             }
+            await _unitOfWork.SaveAsync();
 
-            try
-            {
-                await _unitOfWork.SaveAsync();
-            }
-            catch (Exception ex)
-            {
 
-            }
-            
+
+
+
         }
         
     }

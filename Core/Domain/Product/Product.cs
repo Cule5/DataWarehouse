@@ -20,7 +20,7 @@ namespace Core.Domain.Product
         public double Price { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
-        public ICollection<TransactionProduct.TransactionProduct> TransactionProducts { get; set; }=new List<TransactionProduct.TransactionProduct>();
+        public virtual ICollection<TransactionProduct.TransactionProduct> TransactionProducts { get; set; }=new List<TransactionProduct.TransactionProduct>();
         public override bool Equals(object obj)
         {
             if (!(obj is Product product))

@@ -5,6 +5,7 @@ using System.Text;
 using Autofac;
 using Core.Domain.Shop;
 using Microsoft.AspNetCore.Http;
+using Services.Session;
 
 namespace Service
 {
@@ -20,7 +21,7 @@ namespace Service
             containerBuilder.RegisterAssemblyTypes(coreAssembly)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            containerBuilder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
+            containerBuilder.RegisterType<BufferService>().As<IBufferService>().SingleInstance();
         }
     }
 }

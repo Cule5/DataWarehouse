@@ -7,7 +7,7 @@ using Services.ETL;
 
 namespace Services.Session
 {
-    public interface ISessionService
+    public interface IBufferService
     {
         Task AddToBufferAsync(transaction transaction,EShopType shopType);
         Task<List<transaction>> GetBufferAsync(EShopType shopType);

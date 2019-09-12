@@ -27,7 +27,7 @@ namespace Infrastructure.EntityFramework
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             
-            optionsBuilder.UseSqlServer(@"Server=localhost;Database=DataWarehouse;Trusted_Connection=True;");
+            optionsBuilder.UseLazyLoadingProxies().UseSqlServer(@"Server=localhost;Database=DataWarehouse;Trusted_Connection=True;");
             
         }
 

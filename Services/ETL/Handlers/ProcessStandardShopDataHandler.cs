@@ -7,14 +7,14 @@ using Services.ETL.Command;
 
 namespace Services.ETL.Handlers
 {
-    public class ProcessStandardShopDataHandler:ICommandHandler<ProcessData>
+    public class ProcessStandardShopDataHandler:ICommandHandler<ProcessStandardShopData>
     {
         private readonly IETLService _etlService = null;
         public ProcessStandardShopDataHandler(IETLService etlService)
         {
             _etlService = etlService;
         }
-        public async Task HandleAsync(ProcessData command)
+        public async Task HandleAsync(ProcessStandardShopData command)
         {
             await _etlService.StandardShopDataAsync(command.File);
         }

@@ -9,7 +9,7 @@ namespace Core.Domain.Shop
     {
         public Shop()
         {
-            Transactions = new List<Transaction.Transaction>();
+            //Transactions = 
         }
         public Shop(string name,EShopType shopType,string postCode,string city)
         {
@@ -23,7 +23,7 @@ namespace Core.Domain.Shop
         public EShopType Type { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
-        public ICollection<Transaction.Transaction> Transactions { get; set; }
+        public virtual ICollection<Transaction.Transaction> Transactions { get; set; }= new List<Transaction.Transaction>();
         public override bool Equals(object obj)
         {
             if (!(obj is Shop shop))

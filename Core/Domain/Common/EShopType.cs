@@ -6,8 +6,8 @@ namespace Core.Domain.Common
 {
     public enum EShopType
     {
-        StandardShop,
+        StationaryShop,
         EShop,
-        PhoneShop
+        TeleShop
     } 
 }

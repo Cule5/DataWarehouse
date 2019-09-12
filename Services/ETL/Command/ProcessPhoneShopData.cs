@@ -6,7 +6,7 @@ using Service;
 
 namespace Services.ETL.Command
 {
-    public class ProcessData:ICommand
+    public class ProcessPhoneShopData:ICommand
     {
         public IFormFile File { get; set; }
     }
