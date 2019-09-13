@@ -25,7 +25,7 @@ using Core.Domain.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Polenter.Serialization;
-using Services.Session;
+using Services.Buffer;
 
 namespace Services.ETL
 {

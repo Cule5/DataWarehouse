@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Domain.Common;
 using Services.ETL;
 
-namespace Services.Session
+namespace Services.Buffer
 {
     public interface IBufferService
     {
