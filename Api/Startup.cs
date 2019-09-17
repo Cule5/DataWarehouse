@@ -47,6 +47,7 @@ namespace Api
 
             builder.Populate(services);
             Container = builder.Build();
+            
             return new AutofacServiceProvider(Container);
         }
 

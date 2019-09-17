@@ -1,31 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading;
+﻿using System.IO;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using Core.Domain.Common;
-using Core.Domain.Product;
 using Core.Domain.Product.Factories;
 using Core.Domain.Product.Repositories;
-using Core.Domain.Shop;
 using Core.Domain.Shop.Factories;
 using Core.Domain.Shop.Repositories;
-using Core.Domain.Transaction;
 using Core.Domain.Transaction.Factories;
 using Core.Domain.Transaction.Repositories;
-using Core.Domain.TransactionProduct;
 using Core.Domain.TransactionProduct.Factories;
 using Core.Domain.TransactionProduct.Repositories;
 using Core.Domain.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Polenter.Serialization;
 using Services.Buffer;
+using Services.ETL.DTO;
 
 namespace Services.ETL
 {
@@ -122,28 +111,21 @@ namespace Services.ETL
                 return;
             var transaction = await _transactionFactory.CreateAsync(bufferedData[0].ClientCity, 
                 bufferedData[0].TransactionDateTime, bufferedData[0].PaymentType, bufferedData[0].ClientPostCode);
-
+            var shop = await _shopFactory.CreateAsync(bufferedData[0].ShopName, bufferedData[0].ShopType, bufferedData[0].ShopPostCode, bufferedData[0].ShopCity);
+            shop.Transactions.Add(transaction);
+            transaction.Shop = shop;
             foreach (var rawData in bufferedData)
             {
-                var shop = await _shopFactory.CreateAsync(rawData.ShopName, rawData.ShopType, rawData.ShopPostCode, rawData.ShopCity);
                 var product = await _productFactory.CreateAsync(rawData.Price, rawData.Product, rawData.Quantity);
-                shop.Transactions.Add(transaction);
                 var transactionProduct = await _transactionProductFactory.CreateAsync(product, transaction);
-                transaction.Shop = shop;
                 transaction.TransactionProducts.Add(transactionProduct);
                 product.TransactionProducts.Add(transactionProduct);
-
-                await _shopRepository.AddAsync(shop);
                 await _productRepository.AddAsync(product);
-                await _transactionRepository.AddAsync(transaction);
                 await _transactionProductRepository.AddAsync(transactionProduct);
             }
+            await _transactionRepository.AddAsync(transaction);
+            await _shopRepository.AddAsync(shop);
             await _unitOfWork.SaveAsync();
-
-
-
-
-
         }
         
     }

@@ -14,15 +14,15 @@ namespace Infrastructure.EntityFramework
         public AppDbContext()
 
         {
-            
+               
 
 
         }
 
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Shop> Shops { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<TransactionProduct> TransactionProducts { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Shop> Shops { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<TransactionProduct> TransactionProducts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

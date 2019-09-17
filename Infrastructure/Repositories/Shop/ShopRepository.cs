@@ -25,7 +25,7 @@ namespace Infrastructure.Repositories.Shop
         {
             if(shop==null)
                 throw new ArgumentNullException();
-            var dbShop = await this.GetAsync(shop.ShopId);
+            var dbShop = await this.FindAsync(shop);
             if (dbShop == null)
                 await _appDbContext.Shops.AddAsync(shop);
         }

@@ -4,7 +4,7 @@ using System.Text;
 using Core.Domain.Common;
 
 
-namespace Services.ETL
+namespace Services.ETL.DTO
 {
     public class transaction
     {

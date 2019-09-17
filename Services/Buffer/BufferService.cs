@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Core.Domain.Common;
 using Microsoft.Extensions.Caching.Memory;
 using Services.ETL;
+using Services.ETL.DTO;
 
 namespace Services.Buffer
 {

@@ -24,9 +24,13 @@ namespace Infrastructure.Repositories.Product
         {
             if(product==null)
                 throw new ArgumentNullException();
-            var dbProduct = await this.GetAsync(product.ProductId);
-            if(dbProduct==null)
+            var dbProduct = await this.FindAsync(product);
+            if (dbProduct == null)
+            {
                 await _appDbContext.Products.AddAsync(product);
+                await _appDbContext.Products.LoadAsync();
+            }
+                
         }
 
         public async Task<Core.Domain.Product.Product> FindAsync(Core.Domain.Product.Product product)

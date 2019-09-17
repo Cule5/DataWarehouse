@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Core.Domain.Common;
 using Services.ETL;
+using Services.ETL.DTO;
 
 namespace Services.Buffer
 {
